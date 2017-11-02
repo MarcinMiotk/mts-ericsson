@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <userInput>
-    <panel order="0">
+    <panel order="0" id="p1">
         <field type="title" txt="Configuration of the application" align="left"/>
         <field type="search" variable="NGN_JAVA_HOME">
             <spec txt="Java bin directory :" type="directory" result="directory">

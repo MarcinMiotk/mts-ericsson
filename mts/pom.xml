@@ -18,7 +18,9 @@
         <target.mts.dir>${project.build.directory}/mts</target.mts.dir>
 
         <target.izpack.dir>${project.build.directory}/izpack</target.izpack.dir>
+        <!--
         <izpack.version>4.3.5</izpack.version>
+        -->
 
         <!--
         <sonar.host.url>defined in ~/.m2/settings.xml</sonar.host.url>
@@ -91,7 +93,9 @@
                             </artifactItems>
                             <outputDirectory>${target.mts.dir}/lib</outputDirectory>
                             <!-- dont want izpack standalone compiler -->
+                            <!--
                             <excludeGroupIds>org.codehaus.izpack</excludeGroupIds>
+                            -->
                         </configuration>
                     </execution> 
                 </executions>
@@ -183,7 +187,8 @@
             <plugin>
                 <groupId>org.codehaus.izpack</groupId>
                 <artifactId>izpack-maven-plugin</artifactId>
-                <version>1.0-alpha-5</version>
+                <version>5.1.2</version>
+                <!--
                 <dependencies>
                     <dependency>
                         <groupId>org.codehaus.izpack</groupId>
@@ -191,8 +196,15 @@
                         <version>${izpack.version}</version>
                     </dependency>
                 </dependencies>
+                -->
                 <configuration>
                     <izpackBasedir>${target.izpack.dir}</izpackBasedir>
+                    <baseDir>${target.izpack.dir}</baseDir>
+                    <!--
+
+
+
+                    -->
                 </configuration>
                 <executions>
                     <execution>
@@ -222,11 +234,13 @@
     
     <dependencies>
         <!-- build (izpack) dependency -->
+        <!--
         <dependency>
             <groupId>org.codehaus.izpack</groupId>
             <artifactId>izpack-standalone-compiler</artifactId>
             <version>${izpack.version}</version>
         </dependency>
+        -->
 
         
         <!-- MTS dependencies -->
@@ -326,36 +340,26 @@
             <groupId>javax.sdp</groupId>
             <artifactId>nist-sdp</artifactId>
             <version>1.0</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/nist-sdp-1.0.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>gp-utils</groupId>
             <artifactId>gp-utils</artifactId>
             <version>1.15</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/gp-utils-1.15.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>gp-net-radius</groupId>
             <artifactId>gp-net-radius</artifactId>
             <version>1.6</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/gp-net-radius-1.6.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>JavaSCTP</groupId>
             <artifactId>JavaSCTP</artifactId>
             <version>0.5.8</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/JavaSCTP-0-5-8.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>jpcap</groupId>
             <artifactId>jpcap</artifactId>
             <version>0.7</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/jpcap.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>org.mobicents.protocols.ss7.tcap</groupId>
@@ -366,93 +370,67 @@
             <groupId>binarynotes</groupId>
             <artifactId>binarynotes</artifactId>
             <version>0.1</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/binarynotes.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>Charset-SMS</groupId>
             <artifactId>Charset-SMS</artifactId>
             <version>0.1</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/jcharset-SMS.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>pcm</groupId>
             <artifactId>pcm</artifactId>
             <version>0.1</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/pcm.jar</systemPath>   
         </dependency>        
         <dependency>
             <groupId>pcmext</groupId>
             <artifactId>pcmext</artifactId>
             <version>0.1</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/pcmext.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
             <version>1.1.1</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/jaxen-1.1.1.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>mibble-parser</groupId>
             <artifactId>mibble-parser</artifactId>
             <version>2.9.2</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/mibble-parser-2.9.2.jar</systemPath>   
         </dependency>
 
         <dependency>
-            <groupId>mobicents</groupId>
+            <groupId>org.mobicents.protocols.asn</groupId>
             <artifactId>asn</artifactId>
             <version>2.0.2.FINAL</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/asn-2.0.2.FINAL.jar</systemPath>   
         </dependency>
         <dependency>
-            <groupId>mobicents-tcap</groupId>
-          <artifactId>api</artifactId>
+            <groupId>org.mobicents.protocols.ss7.tcap</groupId>
+          <artifactId>tcap-api</artifactId>
             <version>2.1.0-SNAPSHOT</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/tcap-api-2.1.0-SNAPSHOT.jar</systemPath>   
         </dependency>
         <dependency>
-            <groupId>mobicents-tcap</groupId>
-          <artifactId>impl</artifactId>
+            <groupId>org.mobicents.protocols.ss7.tcap</groupId>
+          <artifactId>tcap-impl</artifactId>
             <version>2.1.0-SNAPSHOT</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/tcap-impl-2.1.0-SNAPSHOT.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>org.mobicents.protocols.ss7.tcap.asn</groupId>
           <artifactId>comp</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/lib/tcap-api-2.1.0-SNAPSHOT.jar</systemPath>   
+            <version>2.1.0-20171102.102302-1</version>
         </dependency>
         <dependency>
             <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.map</groupId>
           <artifactId>BN_classes_map</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/src/main/lib/BN_classes_map.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.tcap</groupId>
           <artifactId>BN_classes_tcap</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/src/main/lib/BN_classes_tcap.jar</systemPath>   
         </dependency>
         <dependency>
             <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.cap</groupId>
           <artifactId>BN_classes_cap</artifactId>
             <version>1.0.0</version>
-            <scope>system</scope> 
-            <systemPath>${basedir}/src/main/lib/BN_classes_cap.jar</systemPath>   
         </dependency>
         
         <!-- library for JSON parser-->

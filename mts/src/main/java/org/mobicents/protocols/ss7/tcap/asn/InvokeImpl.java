@@ -386,8 +386,8 @@ public class InvokeImpl implements Invoke {
             return;
 
         this.stopTimer();
-        if (this.invokeTimeout > 0)
-            this.timerFuture = this.provider.createOperationTimer(this.operationTimerTask, this.invokeTimeout);
+//        if (this.invokeTimeout > 0)
+//            this.timerFuture = this.provider.createOperationTimer(this.operationTimerTask, this.invokeTimeout);
     }
 
     public synchronized void stopTimer() {

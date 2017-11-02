@@ -34,20 +34,13 @@ import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAP;
 import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAPLength;
 import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAPLengthBit;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;
-import com.devoteam.srit.xmlloader.core.log.GlobalLogger;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
-import com.devoteam.srit.xmlloader.gtp.data.ElementTL1V;
-import com.devoteam.srit.xmlloader.gtp.data.ElementTLIV;
-import com.devoteam.srit.xmlloader.gtp.data.ElementTLV;
-import com.devoteam.srit.xmlloader.gtp.data.ElementTV;
 
 import gp.utils.arrays.Array;
 import gp.utils.arrays.DefaultArray;
 import gp.utils.arrays.Integer08Array;
 import gp.utils.arrays.SupArray;
 
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -97,22 +90,6 @@ public abstract class ElementAbstract implements Cloneable
 //            "element identifier=\"...\" coding=\"Q931\"");
 			//newElement = new ElementQ931(parent);
 			throw new UnsupportedOperationException("Q.931 was removed");
-		}    	
-    	else if ("TLIV".equals(coding))
-		{
-			newElement = new ElementTLIV(parent);
-		}
-		else if ("TLV".equals(coding))
-		{
-			newElement = new ElementTLV(parent);
-		}
-		else if ("TL1V".equals(coding))
-		{
-			newElement = new ElementTL1V(parent);
-		}
-		else if ("TV".equals(coding))
-		{
-			newElement = new ElementTV(parent);
 		}
 		else if ("V".equals(coding))
 		{

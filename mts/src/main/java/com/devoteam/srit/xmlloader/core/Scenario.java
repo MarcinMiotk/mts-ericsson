@@ -30,14 +30,8 @@ import com.devoteam.srit.xmlloader.core.log.TextEvent.Topic;
 import com.devoteam.srit.xmlloader.core.operations.Operation;
 import com.devoteam.srit.xmlloader.core.operations.basic.*;
 import com.devoteam.srit.xmlloader.core.operations.protocol.*;
-import com.devoteam.srit.xmlloader.core.protocol.Stack;
 import com.devoteam.srit.xmlloader.core.protocol.StackFactory;
-import com.devoteam.srit.xmlloader.core.utils.URIFactory;
-import com.devoteam.srit.xmlloader.core.utils.URIRegistry;
-import com.devoteam.srit.xmlloader.core.utils.Utils;
 import com.devoteam.srit.xmlloader.core.utils.XMLDocument;
-import com.devoteam.srit.xmlloader.diameter.dictionary.CommandDef;
-import com.devoteam.srit.xmlloader.diameter.dictionary.Dictionary;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -159,21 +153,6 @@ public class Scenario implements Serializable {
         if (rootName.equals("receiveMessage")) {
             ope = new OperationReceiveMessage(null, root, this);
         }
-        //------------------------------------------------------------------------ DIAMETER operations -
-        // DEPRECATED begin
-        else if (rootName.equals("sendAnswerAAA")) {
-            ope = new OperationSendMsg(StackFactory.PROTOCOL_DIAMETER, false, root);
-        }
-        else if (rootName.equals("sendRequestAAA")) {
-            ope = new OperationSendMsg(StackFactory.PROTOCOL_DIAMETER, true, root);
-        }
-        else if (rootName.equals("receiveAnswerAAA")) {
-            ope = parseReceiveAAA(StackFactory.PROTOCOL_DIAMETER, false, root);
-        }
-        else if (rootName.equals("receiveRequestAAA")) {
-            ope = parseReceiveAAA(StackFactory.PROTOCOL_DIAMETER, true, root);
-        }
-        // DEPRECATED end
         //------------------------------------------------------------------------ SIP operations -
         // DEPRECATED begin
         else if (rootName.equals("openProviderSIP")) {
@@ -217,26 +196,6 @@ public class Scenario implements Serializable {
         }
         // DEPRECATED end
         //------------------------------------------------------------------------ radius operations -
-        // DEPRECATED begin //
-        else if (rootName.equals("openSocketRadius")) {
-            ope = new OperationOpenChannel(StackFactory.PROTOCOL_RADIUS, root);
-        }
-        else if (rootName.equals("closeSocketRadius")) {
-            ope = new OperationCloseChannel(StackFactory.PROTOCOL_RADIUS, root);
-        }
-        else if (rootName.equals("sendResponseRadius")) {
-            ope = new OperationSendMsg(StackFactory.PROTOCOL_RADIUS, false, root);
-        }
-        else if (rootName.equals("sendRequestRadius")) {
-            ope = new OperationSendMsg(StackFactory.PROTOCOL_RADIUS, true, root);
-        }
-        else if (rootName.equals("receiveResponseRadius")) {
-            ope = parseReceiveRadius(StackFactory.PROTOCOL_RADIUS, false, root);
-        }
-        else if (rootName.equals("receiveRequestRadius")) {
-            ope = parseReceiveRadius(StackFactory.PROTOCOL_RADIUS, true, root);
-        }
-        // DEPRECATED end //
         //--------------------------------------------------------------------------------- RTP -        
         // DEPRECATED begin //
         else if (rootName.equals("openConnectionRTP")) {
@@ -409,39 +368,7 @@ public class Scenario implements Serializable {
     	}
     	return null;
     }
-    
-    /**
-     * Parse a ReceiveXXXXXAAA operation
-     */
-    @Deprecated
-    private Operation parseReceiveAAA(String protocol, boolean request, Element node) throws Exception {
-        String type = node.attributeValue("command");
-        // go read the value of the command in dictionnary
-        if ((type != null) && (!Utils.isInteger(type))) {
-            // use ApplicationID "base" but will search in all Applications anyway
-            CommandDef commandDef = Dictionary.getInstance().getCommandDefByName(type, "0");
-            if (null != commandDef) {
-                type = Integer.toString(commandDef.get_code());
-            }
-        }
-        String result = node.attributeValue("result");
 
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_DIAMETER, request, null, null, type, result, node, this);
-    }
-
-    /**
-     * Parse a ReceiveXXXXXAAA operation
-     */
-    @Deprecated
-    private Operation parseReceiveRadius(String protocol, boolean request, Element node) throws Exception {
-        String type = node.attributeValue("type");
-
-        String result = node.attributeValue("result");
-
-        String channel = node.attributeValue("socketName");
-
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_RADIUS, request, channel, null, type, result, node, this);
-    }
 
     /**
      * Parse a ReceiveXXXXXSIP operation
@@ -475,70 +402,5 @@ public class Scenario implements Serializable {
         String type = node.attributeValue("payloadType");
 
         return new OperationReceiveMsg(StackFactory.PROTOCOL_RTP, true, channel, null, type, null, node, this);
-    }
-
-    /**
-     * Parse a ReceivePacketTCP operation
-     */
-    @Deprecated
-    private Operation parseReceiveTCP(String protocol, Element node) throws Exception {
-        String channel = node.attributeValue("connexionName");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_TCP, true, channel, null, null, null, node, this);
-    }
-
-    /**
-     * Parse a ReceivePacketSMTP operation
-     */
-    @Deprecated
-    private Operation parseReceiveSMTP(String protocol, boolean request, Element node) throws Exception {
-        String channel = node.attributeValue("sessionName");
-        String type = node.attributeValue("commandName");
-        String result = node.attributeValue("replyCode");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_SMTP, request, channel, null, type, result, node, this);
-    }
-
-    /**
-     * Parse a ReceivePacketMGCP operation
-     */
-    @Deprecated
-    private Operation parseReceiveMGCP(String protocol, boolean request, Element node) throws Exception {
-        String channel = node.attributeValue("sessionName");
-        String type = node.attributeValue("commandName");
-        String result = node.attributeValue("replyCode");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_MGCP, request, channel, null, type, result, node, this);
-    }
-
-    @Deprecated
-    private Operation parseReceiveSTUN(String protocol, boolean request, Element node) throws Exception {
-        String channel = node.attributeValue("sessionName");
-        String type = node.attributeValue("commandName");
-        String result = node.attributeValue("replyCode");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_STUN, request, channel, null, type, result, node, this);
-    }
-
-    @Deprecated
-    private Operation parseReceiveH225CS(String protocol, boolean request, Element node) throws Exception {
-        String channel = node.attributeValue("sessionName");
-        String type = node.attributeValue("commandName");
-        String result = node.attributeValue("replyCode");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_H225CS, request, channel, null, type, result, node, this);
-    }
-
-    /**
-     * Parse a ReceivePacketUDP operation
-     */
-    @Deprecated
-    private Operation parseReceiveUDP(String protocol, Element node) throws Exception {
-        String channel = node.attributeValue("connexionName");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_UDP, true, channel, null, null, null, node, this);
-    }
-
-    /**
-     * Parse a ReceivePacketSCTP operation
-     */
-    @Deprecated
-    private Operation parseReceiveSCTP(String protocol, Element node) throws Exception {
-        String channel = node.attributeValue("connexionName");
-        return new OperationReceiveMsg(StackFactory.PROTOCOL_SCTP, true, channel, null, null, null, node, this);
     }
 }

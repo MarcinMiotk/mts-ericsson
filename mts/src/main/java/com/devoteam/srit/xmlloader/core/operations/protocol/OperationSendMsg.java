@@ -22,7 +22,6 @@
  */
 package com.devoteam.srit.xmlloader.core.operations.protocol;
 
-import com.devoteam.srit.xmlloader.diameter.MsgDiameterParser;
 import com.devoteam.srit.xmlloader.core.Runner;
 import com.devoteam.srit.xmlloader.core.ScenarioRunner;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;

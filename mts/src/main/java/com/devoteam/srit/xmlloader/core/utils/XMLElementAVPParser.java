@@ -22,11 +22,9 @@
  */
 package com.devoteam.srit.xmlloader.core.utils;
 
-import com.devoteam.srit.xmlloader.diameter.MsgDiameterParser;
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.ParameterPool;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;
-import com.devoteam.srit.xmlloader.core.exception.ParsingException;
 
 import java.io.Serializable;
 import java.util.LinkedList;

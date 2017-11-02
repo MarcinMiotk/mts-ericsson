@@ -29,8 +29,6 @@ import com.devoteam.srit.xmlloader.core.Runner;
 import com.devoteam.srit.xmlloader.core.exception.ParameterException;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
 import com.devoteam.srit.xmlloader.core.utils.net.AddressesList;
-import com.devoteam.srit.xmlloader.sctp.StackSctp;
-import com.devoteam.srit.xmlloader.sctp.ChannelTransportInfosSctp;
 import com.devoteam.srit.xmlloader.tcp.ChannelTcp;
 import com.devoteam.srit.xmlloader.tls.ChannelTls;
 import com.devoteam.srit.xmlloader.udp.ChannelUdp;
@@ -218,7 +216,7 @@ public class Channel
     }
 
     /**
-     * @param localAdresses
+     * @param addresses
      * @return
      */
     public boolean setLocalAddresses( List<InetAddress> addresses ){
@@ -300,12 +298,6 @@ public class Channel
 	        else if (StackFactory.PROTOCOL_TLS.equalsIgnoreCase(this.transport))
 	        {
 	        	channel = new ChannelTls(stack);
-	        	channel.clone(this);
-	        }
-	        else if (StackFactory.PROTOCOL_SCTP.equalsIgnoreCase(this.transport))
-	        {
-	        	StackSctp stackSctp = (StackSctp) StackFactory.getStack(StackFactory.PROTOCOL_SCTP);
-	        	channel = stackSctp.createChannelSctp(stack);
 	        	channel.clone(this);
 	        }
 	        else if (StackFactory.PROTOCOL_UDP.equalsIgnoreCase(this.transport))

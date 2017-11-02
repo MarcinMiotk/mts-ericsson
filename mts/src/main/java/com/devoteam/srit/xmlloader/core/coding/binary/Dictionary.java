@@ -30,7 +30,6 @@ import java.util.Map;
 
 import org.dom4j.Element;
 
-import com.devoteam.srit.xmlloader.core.coding.binary.q931.MessageQ931;
 import com.devoteam.srit.xmlloader.core.log.GlobalLogger;
 import com.devoteam.srit.xmlloader.core.log.TextEvent.Topic;
 

@@ -352,20 +352,11 @@
             <version>1.6</version>
         </dependency>
         <dependency>
-            <groupId>JavaSCTP</groupId>
-            <artifactId>JavaSCTP</artifactId>
-            <version>0.5.8</version>
-        </dependency>
-        <dependency>
             <groupId>jpcap</groupId>
             <artifactId>jpcap</artifactId>
             <version>0.7</version>
         </dependency>
-        <dependency>
-            <groupId>org.mobicents.protocols.ss7.tcap</groupId>
-            <artifactId>tcap-impl</artifactId>
-            <version>3.0.1337</version>
-        </dependency>        
+
         <dependency>
             <groupId>binarynotes</groupId>
             <artifactId>binarynotes</artifactId>
@@ -401,36 +392,6 @@
             <groupId>org.mobicents.protocols.asn</groupId>
             <artifactId>asn</artifactId>
             <version>2.0.2.FINAL</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mobicents.protocols.ss7.tcap</groupId>
-          <artifactId>tcap-api</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mobicents.protocols.ss7.tcap</groupId>
-          <artifactId>tcap-impl</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mobicents.protocols.ss7.tcap.asn</groupId>
-          <artifactId>comp</artifactId>
-            <version>2.1.0-20171102.102302-1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.map</groupId>
-          <artifactId>BN_classes_map</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.tcap</groupId>
-          <artifactId>BN_classes_tcap</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.devoteam.srit.xmlloader.sigtran.ap.generated.cap</groupId>
-          <artifactId>BN_classes_cap</artifactId>
-            <version>1.0.0</version>
         </dependency>
         
         <!-- library for JSON parser-->

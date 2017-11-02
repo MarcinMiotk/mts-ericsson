@@ -39,13 +39,6 @@ import org.dom4j.Element;
 
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;
-import com.devoteam.srit.xmlloader.core.utils.Utils;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.Component;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.Invoke;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.Reject;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.ReturnError;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.ReturnResult;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.TCMessage;
 
 
 /**

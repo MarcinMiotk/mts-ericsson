@@ -33,7 +33,6 @@ import com.devoteam.srit.xmlloader.core.coding.binary.coap.ElementCOAPMessage;
 import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAP;
 import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAPLength;
 import com.devoteam.srit.xmlloader.core.coding.binary.eap.ElementEAPLengthBit;
-import com.devoteam.srit.xmlloader.core.coding.binary.q931.ElementQ931;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;
 import com.devoteam.srit.xmlloader.core.log.GlobalLogger;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
@@ -94,9 +93,10 @@ public abstract class ElementAbstract implements Cloneable
     	ElementAbstract newElement = null;
     	if (coding == null)
 		{
-    		GlobalLogger.instance().logDeprecatedMessage("element identifier=\"...\"",
-            "element identifier=\"...\" coding=\"Q931\"");
-			newElement = new ElementQ931(parent);
+//    		GlobalLogger.instance().logDeprecatedMessage("element identifier=\"...\"",
+//            "element identifier=\"...\" coding=\"Q931\"");
+			//newElement = new ElementQ931(parent);
+			throw new UnsupportedOperationException("Q.931 was removed");
 		}    	
     	else if ("TLIV".equals(coding))
 		{
@@ -113,10 +113,6 @@ public abstract class ElementAbstract implements Cloneable
 		else if ("TV".equals(coding))
 		{
 			newElement = new ElementTV(parent);
-		} 
-		else if ("Q931".equals(coding))
-		{
-			newElement = new ElementQ931(parent);
 		}
 		else if ("V".equals(coding))
 		{
@@ -773,14 +769,10 @@ public abstract class ElementAbstract implements Cloneable
         elemString.append("<element ");
         if (this.tag != Integer.MIN_VALUE)
         {
-        	if (!(this instanceof ElementQ931))
-        	{
+
         		elemString.append("tag=\"");
-        	}
-        	else
-        	{
-        		elemString.append("identifier=\"");
-        	}
+
+
 	    	if (this.label != null)
 	    	{
 	    		elemString.append(this.label + ":");

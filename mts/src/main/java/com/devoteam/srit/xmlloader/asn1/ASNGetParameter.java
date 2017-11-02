@@ -23,18 +23,14 @@
 
 package com.devoteam.srit.xmlloader.asn1;
 
-import com.devoteam.srit.xmlloader.asn1.data.ElementValue;
-import com.devoteam.srit.xmlloader.asn1.dictionary.ASNDictionary;
 import com.devoteam.srit.xmlloader.asn1.dictionary.Embedded;
 import com.devoteam.srit.xmlloader.core.Parameter;
-import com.devoteam.srit.xmlloader.core.coding.binary.Dictionary;
 import com.devoteam.srit.xmlloader.core.coding.binary.ElementAbstract;
 import com.devoteam.srit.xmlloader.core.coding.binary.EnumLongField;
 import com.devoteam.srit.xmlloader.core.coding.binary.EnumStringField;
 import com.devoteam.srit.xmlloader.core.log.GlobalLogger;
 import com.devoteam.srit.xmlloader.core.log.TextEvent;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
-import com.devoteam.srit.xmlloader.sigtran.ap.tcap.ObjectId;
 
 import gp.utils.arrays.Array;
 import gp.utils.arrays.DefaultArray;
@@ -49,15 +45,8 @@ import java.util.List;
 import org.bn.CoderFactory;
 import org.bn.IDecoder;
 import org.bn.annotations.ASN1EnumItem;
-import org.bn.coders.ASN1PreparedElementData;
-import org.bn.coders.TagClass;
-import org.bn.metadata.ASN1ElementMetadata;
-import org.bn.metadata.ASN1Metadata;
 import org.bn.types.BitString;
 import org.bn.types.ObjectIdentifier;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.io.SAXReader;
 
 /**
  * 
@@ -446,11 +435,8 @@ public class ASNGetParameter
 		}
 		else
 		{
-			if (!(parentObj instanceof ObjectId))
-			{
 				String str = Utils.toHexaString(bytes, "");
 				parameter.add(str);
-			}
 		}
 	}
 	

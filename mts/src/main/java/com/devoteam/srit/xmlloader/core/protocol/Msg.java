@@ -36,8 +36,6 @@ import com.devoteam.srit.xmlloader.core.utils.Utils;
 import com.devoteam.srit.xmlloader.core.utils.expireshashmap.Removable;
 
 //TODO protocol implementations should not be accessed in this generic class
-import com.devoteam.srit.xmlloader.sigtran.fvo.FvoMessage;
-import com.devoteam.srit.xmlloader.sigtran.tlv.TlvMessage;
 
 import gp.utils.arrays.Array;
 import gp.utils.arrays.DefaultArray;
@@ -1057,30 +1055,12 @@ public abstract class Msg extends MsgLight implements Removable
     {
     }
 
-    public FvoMessage getFvoMessage() 
-    {
-        return null;
-    }
-
-    public void setFvoMessage(FvoMessage fvoMessage) 
-    {
-    }
-
     public int getTlvProtocol()
     {
     	return -1;
     }
     
     public void setTlvProtocol(int protocol) 
-    {
-    }
-
-    public TlvMessage getTlvMessage() 
-    {
-        return null;
-    }
-
-    public void setTlvMessage(TlvMessage tlvMessage) 
     {
     }
      

@@ -70,7 +70,6 @@ public class StackFactory
     public final static String PROTOCOL_POP = "POP";
     public final static String PROTOCOL_SMPP = "SMPP";
     public final static String PROTOCOL_UCP = "UCP";
-    public final static String PROTOCOL_SIGTRAN = "SIGTRAN";
 	public static final String PROTOCOL_TLS = "TLS";
 	public static final String PROTOCOL_H248 = "H248";
     public static final String PROTOCOL_PCP = "PCP";		// experimental : not totally implemented

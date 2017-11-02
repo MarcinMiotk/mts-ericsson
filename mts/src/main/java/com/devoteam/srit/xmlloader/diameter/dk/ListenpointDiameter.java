@@ -68,10 +68,6 @@ public class ListenpointDiameter extends ListenpointDiamCommon
     	{
     		StatPool.beginStatisticProtocol(StatPool.LISTENPOINT_KEY, StatPool.NIO_KEY, StackFactory.PROTOCOL_TCP, protocol);
     	}
-    	else if (this.getListenSCTP())
-    	{
-    		StatPool.beginStatisticProtocol(StatPool.LISTENPOINT_KEY, StatPool.NIO_KEY, StackFactory.PROTOCOL_SCTP, protocol);
-    	}
     	this.protocol = protocol;
     	this.startTimestamp = System.currentTimeMillis();
     	this.diameterNode = new DiameterNodeManager(node_settings, this);
@@ -85,10 +81,6 @@ public class ListenpointDiameter extends ListenpointDiamCommon
     	if (this.getListenTCP())
     	{
     		StatPool.endStatisticProtocol(StatPool.LISTENPOINT_KEY, StatPool.NIO_KEY, StackFactory.PROTOCOL_TCP, getProtocol(), startTimestamp);
-    	}
-    	else if (this.getListenSCTP())
-    	{
-    		StatPool.endStatisticProtocol(StatPool.LISTENPOINT_KEY, StatPool.NIO_KEY, StackFactory.PROTOCOL_SCTP, getProtocol(), startTimestamp);
     	}
     	
     	try 
@@ -162,10 +154,7 @@ public class ListenpointDiameter extends ListenpointDiamCommon
 		}
 
 		// default transport is TCP (RFC3588)	
-        TransportProtocol protocol = Peer.TransportProtocol.tcp; 
-        if (StackFactory.PROTOCOL_SCTP.equalsIgnoreCase(transport)) {
-            protocol = Peer.TransportProtocol.sctp;
-        }
+        TransportProtocol protocol = Peer.TransportProtocol.tcp;
        
         // set peers list
         Peer peer = new Peer(remoteHost, remotePort, protocol);

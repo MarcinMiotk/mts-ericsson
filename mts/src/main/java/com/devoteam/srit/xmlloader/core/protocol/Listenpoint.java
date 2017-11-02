@@ -32,10 +32,8 @@ import com.devoteam.srit.xmlloader.core.log.GlobalLogger;
 import com.devoteam.srit.xmlloader.core.log.TextEvent;
 import com.devoteam.srit.xmlloader.core.log.TextEvent.Topic;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
-import com.devoteam.srit.xmlloader.core.utils.net.AddressesList;
 
 //TODO transport implementations should not be accessed in this generic class
-import com.devoteam.srit.xmlloader.sctp.StackSctp;
 import com.devoteam.srit.xmlloader.tcp.ListenpointTcp;
 import com.devoteam.srit.xmlloader.tls.ListenpointTls;
 import com.devoteam.srit.xmlloader.udp.ListenpointUdp;
@@ -74,7 +72,6 @@ public class Listenpoint {
 
 	private boolean listenUDP = false;
 	private boolean listenTCP = false;
-	private boolean listenSCTP = false;
 	private boolean listenTLS = false;
 
 	protected String transport = null;
@@ -85,7 +82,6 @@ public class Listenpoint {
 	 */
 	protected Listenpoint listenpointUdp = null;
 	protected Listenpoint listenpointTcp = null;
-	protected Listenpoint listenpointSctp = null;
 	protected Listenpoint listenpointTls = null;
 
 	private Object attachment;
@@ -143,7 +139,6 @@ public class Listenpoint {
 		this.transport = stack.getConfig().getString("listenpoint.TRANSPORT", StackFactory.PROTOCOL_UDP);
 		this.listenUDP = this.stack.getConfig().getBoolean("listenpoint.LISTEN_UDP", false);
 		this.listenTCP = this.stack.getConfig().getBoolean("listenpoint.LISTEN_TCP", false);
-		this.listenSCTP = this.stack.getConfig().getBoolean("listenpoint.LISTEN_SCTP", false);
 		this.listenTLS = this.stack.getConfig().getBoolean("listenpoint.LISTEN_TLS", false);
 	}
 
@@ -162,7 +157,6 @@ public class Listenpoint {
 
 		this.listenUDP = false;
 		this.listenTCP = false;
-		this.listenSCTP = false;
 		this.listenTLS = false;
 
 		this.port = port;
@@ -223,7 +217,7 @@ public class Listenpoint {
 	 * 
 	 * It should only be called in the open() method of the Channel sub-types.
 	 * 
-	 * @param addressesStringWithSeparator
+	 * @param hosts
 	 * @return status
 	 */
 	public boolean setLocalHost(String hosts) {
@@ -255,10 +249,6 @@ public class Listenpoint {
 		return listenTCP;
 	}
 
-	public boolean getListenSCTP() {
-		return listenSCTP;
-	}
-
 	public boolean getListenTLS() {
 		return listenTLS;
 	}
@@ -273,7 +263,7 @@ public class Listenpoint {
 	 * 
 	 * It should only be called in the open() method of the Channel sub-types.
 	 * 
-	 * @param port
+	 * @param portTLS
 	 */
 	public void setPortTLS(int portTLS) {
 		this.portTLS = portTLS;
@@ -320,18 +310,6 @@ public class Listenpoint {
 			listenpointTcp.create(protocol);
 		}
 
-		if (this.listenSCTP) {
-			StackSctp stackSctp = (StackSctp) StackFactory.getStack(StackFactory.PROTOCOL_SCTP);
-			listenpointSctp = stackSctp.createListenpointSctp(this.stack);
-			listenpointSctp.clone(this);
-			try {
-				listenpointSctp.create(protocol);
-			} catch (UnsatisfiedLinkError e) {
-				// nothing to do
-				// we are on Windows and have not any SCTP library
-			}
-		}
-
 		if (this.listenTLS) {
 			if (this.portTLS <= 0) {
 				this.portTLS = this.port + 1;
@@ -366,13 +344,6 @@ public class Listenpoint {
 			} catch (Exception e) {
 			}
 			listenpointTcp = null;
-		}
-		if (listenpointSctp != null) {
-			try {
-				listenpointSctp.remove();
-			} catch (Exception e) {
-			}
-			listenpointSctp = null;
 		}
 		if (listenpointTls != null) {
 			try {
@@ -454,8 +425,6 @@ public class Listenpoint {
 			res = listenpointUdp.prepareChannel(msg, remoteHost, remotePort, transport);
 		} else if (transport.equals(StackFactory.PROTOCOL_TCP) && listenpointTcp != null) {
 			res = listenpointTcp.prepareChannel(msg, remoteHost, remotePort, transport);
-		} else if (transport.equals(StackFactory.PROTOCOL_SCTP) && listenpointSctp != null) {
-			res = listenpointSctp.prepareChannel(msg, remoteHost, remotePort, transport);
 		} else if (transport.equals(StackFactory.PROTOCOL_TLS) && listenpointTls != null) {
 			res = listenpointTls.prepareChannel(msg, remoteHost, remotePort, transport);
 		} else {
@@ -486,8 +455,6 @@ public class Listenpoint {
 			res = listenpointUdp.sendMessage(msg, remoteHost, remotePort, transport);
 		} else if (transport.equals(StackFactory.PROTOCOL_TCP) && listenpointTcp != null) {
 			res = listenpointTcp.sendMessage(msg, remoteHost, remotePort, transport);
-		} else if (transport.equals(StackFactory.PROTOCOL_SCTP) && listenpointSctp != null) {
-			res = listenpointSctp.sendMessage(msg, remoteHost, remotePort, transport);
 		} else if (transport.equals(StackFactory.PROTOCOL_TLS) && listenpointTls != null) {
 			res = listenpointTls.sendMessage(msg, remoteHost, remotePort, transport);
 		} else {
@@ -520,9 +487,6 @@ public class Listenpoint {
 		}
 		if (listenTCP) {
 			str += " listenTCP=\"true\"";
-		}
-		if (listenSCTP) {
-			str += " listenSCTP=\"true\"";
 		}
 		if (listenTLS) {
 			str += " portTLS=\"" + portTLS + "\"";
@@ -580,12 +544,6 @@ public class Listenpoint {
 			this.listenTCP = Utils.parseBoolean(listenTCPAttr, "listenTCP");
 		} else {
 			this.listenTCP = this.stack.getConfig().getBoolean("listenpoint.LISTEN_TCP", false);
-		}
-		String listenSCTPAttr = root.attributeValue("listenSCTP");
-		if (listenSCTPAttr != null) {
-			this.listenSCTP = Utils.parseBoolean(listenSCTPAttr, "listenSCTP");
-		} else {
-			this.listenSCTP = this.stack.getConfig().getBoolean("listenpoint.LISTEN_SCTP", false);
 		}
 		String listenTLSAttr = root.attributeValue("listenTLS");
 		if (listenTLSAttr != null) {
@@ -704,7 +662,6 @@ public class Listenpoint {
 		this.protocol = listenpoint.getProtocol();
 		this.listenUDP = false;
 		this.listenTCP = false;
-		this.listenSCTP = false;
 		this.listenTLS = false;
 
 		// the transport layer will use the protocol layer transportInfos
@@ -739,9 +696,6 @@ public class Listenpoint {
 			return false;
 		}
 		if (this.listenTCP != listenpoint.getListenTCP()) {
-			return false;
-		}
-		if (this.listenSCTP != listenpoint.getListenSCTP()) {
 			return false;
 		}
 		if (this.listenTLS != listenpoint.getListenTLS()) {

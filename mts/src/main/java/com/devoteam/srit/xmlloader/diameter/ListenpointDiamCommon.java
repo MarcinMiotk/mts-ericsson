@@ -176,10 +176,7 @@ public class ListenpointDiamCommon extends Listenpoint
                 nodePort,
                 nodeProductName, 
                 nodeFirmwareRevision);
-        
-        boolean isNodeUseSCTP = this.getListenSCTP();
-        GlobalLogger.instance().getApplicationLogger().debug(TextEvent.Topic.PROTOCOL, "isNodeUseSCTP : ", isNodeUseSCTP);
-        node_settings.setUseSCTP(isNodeUseSCTP);
+
         boolean isNodeUseTCP = this.getListenTCP();
         GlobalLogger.instance().getApplicationLogger().debug(TextEvent.Topic.PROTOCOL, "isNodeUseTCP : ", isNodeUseTCP);
         node_settings.setUseTCP(isNodeUseTCP);

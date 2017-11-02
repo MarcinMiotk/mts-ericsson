@@ -36,8 +36,6 @@ import com.devoteam.srit.xmlloader.asn1.dictionary.Embedded;
 import com.devoteam.srit.xmlloader.asn1.dictionary.EmbeddedMap;
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.coding.binary.ElementAbstract;
-import com.devoteam.srit.xmlloader.core.protocol.StackFactory;
-import com.devoteam.srit.xmlloader.sigtran.ap.map.Component;
 
 
 /**
@@ -51,9 +49,7 @@ public abstract class ASNMessage
 
 	// ASN1 object
 	protected Object asnObject;
-	
-	public static boolean configMAPSmsCommand = false;
-	
+
 	protected ASNDictionary dictionary;
 	
 	// list of embedded objects
@@ -62,7 +58,6 @@ public abstract class ASNMessage
 	public ASNMessage() throws Exception
 	{
 		this.embeddedList = new EmbeddedMap();
-		configMAPSmsCommand = StackFactory.getStack(StackFactory.PROTOCOL_SIGTRAN).getConfig().getBoolean("map.DECODE_SMS_COMMAND", false);
 	}
 	
 	public ASNMessage(String dictionaryFile) throws Exception
@@ -193,15 +188,15 @@ public abstract class ASNMessage
     		{
     			int TP_MTI = bytes[0] & (byte) 3;
     			boolean request;
-    			if (this.asnObject instanceof Component)
-    			{
-	    			Component component = ((Component) this.asnObject);
-	    			request = component.isInvokeSelected();
-    			}
-    			else
-    			{
+//    			if (this.asnObject instanceof Component)
+//    			{
+//	    			Component component = ((Component) this.asnObject);
+//	    			request = component.isInvokeSelected();
+//    			}
+//    			else
+//    			{
     				request = true;
-    			}
+//    			}
     			
     			if (TP_MTI == 0 && request)
     			{
@@ -221,13 +216,9 @@ public abstract class ASNMessage
     				simpleClassName = simpleClassName + "_SMS-SUBMIT-REPORT";
     			}
 
-    			else if (TP_MTI == 2 & !configMAPSmsCommand)
+    			else if (TP_MTI == 2)
     			{
     				simpleClassName = simpleClassName + "_SMS-STATUS-REPORT";
-    			}
-    			else if (TP_MTI == 2 && configMAPSmsCommand)
-    			{
-    				simpleClassName = simpleClassName + "_SMS-COMMAND";
     			}
     		}
 	    	elementDico = getElementByLabel(simpleClassName);

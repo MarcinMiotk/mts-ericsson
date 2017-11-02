@@ -23,10 +23,6 @@
 
 package com.devoteam.srit.xmlloader.core.operations.basic.operators;
 
-import com.devoteam.srit.xmlloader.asn1.ASNMessage;
-import com.devoteam.srit.xmlloader.asn1.ASNToXMLConverter;
-import com.devoteam.srit.xmlloader.asn1.BN_ASNMessage;
-import com.devoteam.srit.xmlloader.asn1.XMLToASNParser;
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.Runner;
 import com.devoteam.srit.xmlloader.core.coding.binary.Dictionary;
@@ -42,7 +38,6 @@ import gp.utils.arrays.DefaultArray;
 import gp.utils.arrays.DigestArray;
 import gp.utils.arrays.MacArray;
 import gp.utils.arrays.RandomArray;
-import gp.utils.arrays.SupArray;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,7 +48,6 @@ import java.net.InetAddress;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -105,8 +99,6 @@ public class PluggableParameterOperatorBinary extends AbstractPluggableParameter
     final private String NAME_BIN_AUTHRTP	= "binary.authRTP";
     final private String NAME_BIN_RTPKEYDERIVATION = "binary.RTPKeyDerivation";
     final private String NAME_BIN_DIFFERENCE = "binary.difference";
-    final private String NAME_BIN_XMLTOASN = "binary.xmlToAsn";
-    final private String NAME_BIN_ASNTOXML = "binary.asnToXml";
     final private String NAME_BIN_ENDIAN = "binary.endian";
     final private String NAME_BIN_ENCODE = "binary.encode";
     final private String NAME_BIN_DECODE = "binary.decode";
@@ -146,8 +138,6 @@ public class PluggableParameterOperatorBinary extends AbstractPluggableParameter
         this.addPluggableName(new PluggableName(NAME_BIN_AUTHRTP));
         this.addPluggableName(new PluggableName(NAME_BIN_RTPKEYDERIVATION));
         this.addPluggableName(new PluggableName(NAME_BIN_DIFFERENCE));
-        this.addPluggableName(new PluggableName(NAME_BIN_XMLTOASN));
-        this.addPluggableName(new PluggableName(NAME_BIN_ASNTOXML));
         this.addPluggableName(new PluggableName(NAME_BIN_ENDIAN));
         this.addPluggableName(new PluggableName(NAME_BIN_ENCODE));
         this.addPluggableName(new PluggableName(NAME_BIN_DECODE));
@@ -525,68 +515,6 @@ public class PluggableParameterOperatorBinary extends AbstractPluggableParameter
 	                    runner.getParameterPool().traceInfo("SET", "[value  ]", param_1.toString());
 	                    runner.getParameterPool().traceInfo("SET", "[value2 ]", param_2.toString());
                     }
-                }
-                else if (name.equalsIgnoreCase(NAME_BIN_XMLTOASN))
-                {
-                	String xmlData = param_1.get(i).toString();
-                	
-                	Parameter param_2 = assertAndGetParameter(operands, "value2");
-                    String className = param_2.get(i).toString().replace(" ", "");
-                    
-                    Parameter param_3 = assertAndGetParameter(operands, "value3");
-                    String dictionary = param_3.get(i).toString().replace(" ", "");
-                    
-                    
-                    Class thisClass = Class.forName(className);
-                    int pos = className.lastIndexOf('.');
-                    String packageName = "";
-                    if (pos > 0)
-                    {
-                    	packageName = className.substring(0, pos + 1);
-                    }
-                    
-                    Document doc = Utils.stringParseXML(xmlData, false);
-                    Element element = doc.getRootElement();
-                    
-                    Object objASN;
-                    objASN = thisClass.newInstance();
-                    String resultPath = "";
-                    ASNMessage message = new BN_ASNMessage(dictionary); 
-                    XMLToASNParser.getInstance().parseFromXML(resultPath, message, objASN, element, packageName);
-
-                    // Library binarynotes
-                	IEncoder<java.lang.Object> encoderMAP = CoderFactory.getInstance().newEncoder("BER");
-                	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                    encoderMAP.encode(objASN, outputStream);
-                    byte[] bytesMAP = outputStream.toByteArray();
-                    Array arrayMAP = new DefaultArray(bytesMAP);
-                    
-                    String ret =  Array.toHexString(arrayMAP);
-                    result.add(ret);
-                }
-                else if (name.equalsIgnoreCase(NAME_BIN_ASNTOXML))
-                {
-                	String string1 = param_1.get(i).toString();
-                	Array array = Array.fromHexString(string1);
-                    
-                    Parameter param_2 = assertAndGetParameter(operands, "value2");
-                    String className = param_2.get(i).toString().replace(" ", "");
-                    
-                    Parameter param_3 = assertAndGetParameter(operands, "value3");
-                    String dictionary = param_3.get(i).toString().replace(" ", "");
-                    
-                    // Library binarynotes
-                	IDecoder decoder = CoderFactory.getInstance().newDecoder("BER");
-                    InputStream inputStream = new ByteArrayInputStream(array.getBytes());
-                    Class<?> cl = Class.forName(className);
-                    Object objASN = cl.newInstance();
-                    objASN = decoder.decode(inputStream, cl);
-                    
-                    String ret = "";
-                    String resultPath = "";
-                    ASNMessage message = new BN_ASNMessage(dictionary); 
-                    ret += ASNToXMLConverter.getInstance().toXML(resultPath, message, null, "value", objASN, null, ASNToXMLConverter.NUMBER_SPACE_TABULATION * 2);
-                    result.add(ret);
                 }
                 else if (name.equalsIgnoreCase(NAME_BIN_ENDIAN))
                 {

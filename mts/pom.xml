@@ -358,12 +358,6 @@
             <artifactId>mibble-parser</artifactId>
             <version>2.9.2</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.mobicents.protocols.asn</groupId>
-            <artifactId>asn</artifactId>
-            <version>2.0.2.FINAL</version>
-        </dependency>
         
         <!-- library for JSON parser-->
         <dependency>

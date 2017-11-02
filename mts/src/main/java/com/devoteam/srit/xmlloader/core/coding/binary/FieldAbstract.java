@@ -28,7 +28,6 @@ import gp.utils.arrays.Array;
 import gp.utils.arrays.DefaultArray;
 import gp.utils.arrays.SupArray;
 
-import com.devoteam.srit.xmlloader.asn1.ASNToXMLConverter;
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.exception.ExecutionException;
 import com.devoteam.srit.xmlloader.core.utils.Utils;
@@ -169,7 +168,7 @@ public abstract class FieldAbstract
         	// nothing to do 
         }
         StringBuilder elemString = new StringBuilder();
-        elemString.append(ASNToXMLConverter.indent(indent));
+//        elemString.append(ASNToXMLConverter.indent(indent));
         elemString.append("<field");
         elemString.append(" name=\"");
         elemString.append(this.name);

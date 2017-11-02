@@ -23,10 +23,6 @@
 
 package com.devoteam.srit.xmlloader.core.coding.binary;
 
-import com.devoteam.srit.xmlloader.asn1.ASNToXMLConverter;
-import com.devoteam.srit.xmlloader.asn1.data.ElementDigitV;
-import com.devoteam.srit.xmlloader.asn1.data.ElementLengthV;
-import com.devoteam.srit.xmlloader.asn1.data.ElementValue;
 import com.devoteam.srit.xmlloader.core.Parameter;
 import com.devoteam.srit.xmlloader.core.coding.binary.coap.ElementCOAPOption;
 import com.devoteam.srit.xmlloader.core.coding.binary.coap.ElementCOAPMessage;
@@ -90,18 +86,6 @@ public abstract class ElementAbstract implements Cloneable
 //            "element identifier=\"...\" coding=\"Q931\"");
 			//newElement = new ElementQ931(parent);
 			throw new UnsupportedOperationException("Q.931 was removed");
-		}
-		else if ("V".equals(coding))
-		{
-			newElement = new ElementValue(parent);
-		}
-		else if ("LV".equals(coding))
-		{
-			newElement = new ElementLengthV(parent);
-		}
-		else if ("DV".equals(coding))
-		{
-			newElement = new ElementDigitV(parent);
 		}
 		else if ("EAP".equals(coding))
 		{
@@ -742,7 +726,7 @@ public abstract class ElementAbstract implements Cloneable
     public String toXml(int indent) 
     {
         StringBuilder elemString = new StringBuilder();
-        elemString.append(ASNToXMLConverter.indent(indent));
+//        elemString.append(ASNToXMLConverter.indent(indent));
         elemString.append("<element ");
         if (this.tag != Integer.MIN_VALUE)
         {
@@ -781,9 +765,9 @@ public abstract class ElementAbstract implements Cloneable
         }
     	elemString.append(">");
         
-        elemString.append(fieldsElementsToXml(indent + ASNToXMLConverter.NUMBER_SPACE_TABULATION));
+  //      elemString.append(fieldsElementsToXml(indent + ASNToXMLConverter.NUMBER_SPACE_TABULATION));
         
-        elemString.append(ASNToXMLConverter.indent(indent));
+//        elemString.append(ASNToXMLConverter.indent(indent));
         elemString.append("</element>\n");
         
         return elemString.toString();
